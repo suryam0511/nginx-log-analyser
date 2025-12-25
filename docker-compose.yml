@@ -1,0 +1,24 @@
+version: "3.8"
+services:
+  frontend:
+    build: ./frontend
+    container_name: express-frontend
+    ports:
+      - "80:3000"   # expose frontend on port 80
+    environment:
+      - BACKEND_URL=http://flask-backend:5000/submit
+    depends_on:
+      - flask-backend
+
+  flask-backend:
+    build: ./backend
+    container_name: flask-backend
+    ports:
+      - "5000:5000"
+    volumes:
+      - backend-data:/data
+    environment:
+      - DATA_DIR=/data
+
+volumes:
+  backend-data:
